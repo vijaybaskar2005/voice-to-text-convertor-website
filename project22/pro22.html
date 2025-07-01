@@ -1,0 +1,301 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voice to Text Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    #output {
+      border: 1px solid #ccc;
+      padding: 15px;
+      min-height: 100px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      background: #fafafa;
+      text-align: left;
+      white-space: pre-wrap;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Voice to Text Converter</h1>
+    <div id="output">Your speech will appear here...</div>
+    <button onclick="startListening()">Start Listening</button>
+  </div>
+
+  <script>
+    const outputDiv = document.getElementById("output");
+    let recognition;
+
+    function startListening() {
+      if (!('webkitSpeechRecognition' in window)) {
+        alert("Your browser doesn't support speech recognition. Please try Chrome.");
+        return;
+      }
+
+      recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-IN';
+
+      recognition.onstart = function() {
+        outputDiv.textContent = "Listening...";
+      };
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        outputDiv.textContent = transcript;
+
+        // Example: send to backend (Flask) if needed
+        // fetch('/save', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ text: transcript })
+        // });
+      };
+
+      recognition.onerror = function(event) {
+        outputDiv.textContent = "Error occurred: " + event.error;
+      };
+
+      recognition.onend = function() {
+        console.log("Speech recognition service disconnected");
+      };
+
+      recognition.start();
+    }
+  </script>
+</body>
+</html>-->
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voice to Text Converter</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e3f2fd, #bbdefb);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    h1 {
+      color: #1a237e;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    #output {
+      border: 1px solid #ccc;
+      padding: 15px;
+      min-height: 100px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      background: #f8f9fa;
+      text-align: left;
+      white-space: pre-wrap;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    button {
+      padding: 12px 28px;
+      font-size: 16px;
+      background: #3f51b5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(63, 81, 181, 0.2);
+      transition: transform 0.2s ease, background 0.3s;
+    }
+
+    button:hover {
+      background: #303f9f;
+      transform: scale(1.05);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .typing {
+      border-right: 2px solid #3f51b5;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: #3f51b5; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎤 Voice to Text Converter</h1>
+    <div id="output">Your speech will appear here...</div>
+    <button onclick="startListening()">Start Listening</button>
+  </div>
+
+  <script>
+    const outputDiv = document.getElementById("output");
+    let recognition;
+
+    function startListening() {
+      if (!('webkitSpeechRecognition' in window)) {
+        alert("Your browser doesn't support speech recognition. Please use Chrome.");
+        return;
+      }
+
+      recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-IN';
+
+      recognition.onstart = function() {
+        outputDiv.textContent = "Listening...";
+        outputDiv.classList.add("typing");
+      };
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        outputDiv.classList.remove("typing");
+        outputDiv.textContent = ""; // Clear before typing effect
+
+        // Typing effect
+        let index = 0;
+        const type = () => {
+          if (index < transcript.length) {
+            outputDiv.textContent += transcript.charAt(index);
+            index++;
+            setTimeout(type, 30); // Typing speed
+          }
+        };
+        type();
+
+        // Optional: Send to Flask
+        // fetch('/save', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ text: transcript })
+        // });
+      };
+
+      recognition.onerror = function(event) {
+        outputDiv.classList.remove("typing");
+        outputDiv.textContent = "Error: " + event.error;
+      };
+
+      recognition.onend = function() {
+        outputDiv.classList.remove("typing");
+      };
+
+      recognition.start();
+    }
+  </script>
+</body>
+</html>-->
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voice to Text Converter</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Voice to Text Converter</h1>
+    <div id="output">Your speech will appear here...</div>
+    <button onclick="startListening()">Start Listening</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voice to Text Converter</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Voice to Text Converter</h1>
+    <div id="output">Your speech will appear here...</div>
+    <div class="button-group">
+      <button onclick="startListening()">Start Listening</button>
+      <button onclick="stopListening()">Stop Listening</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
